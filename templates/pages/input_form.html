@@ -1,0 +1,153 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{% static 'css/input_form.css' %}">
+        <script src="{% static 'js/input_form.js' %}"></script>
+        <section class="image-container" aria-label="Full width image section">
+            <img loading="lazy" src="{% static 'images/bg_image.png' %}" class="full-width-image" alt="Descriptive content of the image" width="1440" height="369">
+            <div class="text-overlay">PennyPantry</div>
+            <div class="subtitle-overlay">Looking for cheap, quality food?</div>
+            
+            <!-- Search field within the image container -->
+            <section class="search-field" aria-label="Search">
+                <form class="search-container" role="search">
+                    <label for="search-input" class="visually-hidden">Search</label>
+                    <img src="{% static 'images/search-icon.png' %}" alt="Search icon" class="search-icon" aria-hidden="true">
+                    <input type="search" id="search-input" class="search-input" placeholder="Search" aria-label="Search input">
+                </form>
+                <button class="submit-button__container" type="submit" aria-label="Submit search">
+                    <span class="visually-hidden">Submit</span>
+                    <img src="{% static 'images/SubmitBtn[action_submit].png' %}" alt="Submit" class="submit-button__icon">
+                </button>
+            </section>                
+        </section>
+    </head>
+    <body>
+        <main>
+            <div class="main-content"> 
+                <section class="filter-section" aria-label="Food filters">
+                    <div class="filter-options">
+                        <div class="filter-item">
+                            <img src="{% static 'images/brand.png' %}" alt="Brand filter" class="filter-icon" />
+                            <div class="filter-label">
+                                <button class="filter-button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Brand</button>
+                                <div class="dropdown-menu">
+                                    <label><input type="checkbox" value="Store Brand"> Low</label>
+                                    <label><input type="checkbox" value="Unilever"> Medium</label>
+                                    <label><input type="checkbox" value="Mexican"> High</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <img src="{% static 'images/size.png' %}" alt="Size filter" class="filter-icon" />
+                            <div class="filter-label">
+                                <button aria-haspopup="true" aria-expanded="false">Size</button>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <img src="{% static 'images/distance.png' %}" alt="Distance filter" class="filter-icon" />
+                            <div class="filter-label">
+                                <button aria-haspopup="true" aria-expanded="false">Distance</button>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <img src="{% static 'images/dietary_restrictions.png' %}" alt="Dietary Restrictions filter" class="filter-icon" />
+                            <div class="filter-label">
+                                <button aria-haspopup="true" aria-expanded="false">Dietary Restrictions</button>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <img src="{% static 'images/special_offers.png' %}" alt="Special Offers filter" class="filter-icon" />
+                            <div class="filter-label">
+                                <button aria-haspopup="true" aria-expanded="false">Special Offers</button>
+                            </div>
+                        </div>
+                        <!-- Repeat for each filter -->
+                        <div class="filter-item">
+                            <img src="{% static 'images/Availability.png' %}" alt="Availability filter" class="filter-icon" />
+                            <div class="filter-label">
+                                <button aria-haspopup="true" aria-expanded="false">Availability</button>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <img src="{% static 'images/freshness.png' %}" alt="Freshness filter" class="filter-icon" />
+                            <div class="filter-label">
+                                <button aria-haspopup="true" aria-expanded="false">Freshness</button>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <img src="{% static 'images/caloric_value.png' %}" alt="Caloric Value filter" class="filter-icon" />
+                            <div class="filter-label">
+                                <button aria-haspopup="true" aria-expanded="false">Caloric Value</button>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <img src="{% static 'images/fat_content.png' %}" alt="Fat Content filter" class="filter-icon" />
+                            <div class="filter-label">
+                                <button aria-haspopup="true" aria-expanded="false">Fat Content</button>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <img src="{% static 'images/saturated_fat.png' %}" alt="Saturated Fat filter" class="filter-icon" />
+                            <div class="filter-label">
+                                <button aria-haspopup="true" aria-expanded="false">Saturated Fat</button>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <img src="{% static 'images/carbohydrates.png' %}" alt="Carbohydrates filter" class="filter-icon" />
+                            <div class="filter-label">
+                                <button aria-haspopup="true" aria-expanded="false">Carbohydrates</button>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <img src="{% static 'images/protein.png' %}" alt="Protein filter" class="filter-icon" />
+                            <div class="filter-label">
+                                <button aria-haspopup="true" aria-expanded="false">Protein</button>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <img src="{% static 'images/Sodium.png' %}" alt="Sodium filter" class="filter-icon" />
+                            <div class="filter-label">
+                                <button aria-haspopup="true" aria-expanded="false">Sodium</button>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <img src="{% static 'images/Ecoscore_grade.png' %}" alt="Ecoscore Grade filter" class="filter-icon" />
+                            <div class="filter-label">
+                                <button aria-haspopup="true" aria-expanded="false">Ecoscore Grade</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="popular-produce">
+                <h2>Here are the most popular items in the US</h2>
+                <div class="produce-list">
+                    {% for item in form %}
+                    <div class="produce-item">
+                        {% if item.image_url %}
+                        <img src="{{ item.image_url }}" alt="{{ item.product_name }}" class="produce-image">
+                        {% else %}
+                        <p>No image available</p>
+                        {% endif %}
+                        <h3>{{ item.product_name }}</h3>
+                        <p><strong>Produce:</strong> {{ item.produce_name }}</p>
+                        <p><strong>Calories:</strong> {{ item.calories }} kcal</p>
+                        <p><strong>Fat:</strong> {{ item.fat }} g</p>
+                        <p><strong>Sugars:</strong> {{ item.sugars }} g</p>
+                        <p><strong>Proteins:</strong> {{ item.proteins }} g</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+                
+        </main>
+    </body>
+    {% include 'includes/footer.html' %}
+</html>
+{% endblock content %}
