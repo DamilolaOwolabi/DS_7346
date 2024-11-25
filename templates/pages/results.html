@@ -1,0 +1,82 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Recommendations</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <!-- Embed productsData -->
+    <script>
+        const productsData = JSON.parse('{{ products_json|safe|escapejs }}');
+    </script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Custom JS -->
+    <script src="{% static 'js/results.js' %}"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/results.css' %}">
+</head>
+<body>
+    <div class="results-container">
+        <div class="navigation">
+            <a href="{% url 'grocery_search' %}" class="back-button">Go Back to Grocery Search</a>
+        </div>
+
+        {% for product in products %}
+        <div class="product-card">
+            <h2>{{ product.name }}</h2>
+            <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-image">
+            <p><strong>Brand:</strong> {{ product.brand }}</p>
+            <p><strong>Ingredients:</strong> {{ product.ingredients }}</p>
+            <p><strong>Additives:</strong> 
+                {% if product.additives and product.additives|length > 0 %}
+                    {{ product.additives|join:", " }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </p>
+            <p><strong>Allergens:</strong> {{ product.allergens|join:", " }}</p>
+            <!-- Highlighting because the API resource is limited -->
+            <!--<p><strong>Price:</strong> {{ product.price }}</p> -->
+            <p><strong>Calories:</strong> {{ product.caloric_value }}kcal</p>
+            <p><strong>Size:</strong> {{ product.size }}</p>
+            <p><strong>Fat:</strong> {{ product.fat_value }}g per 100g</p>
+            <p><strong>Protein:</strong> {{ product.protein_value }}g per 100g</p>
+            <p><strong>Sodium:</strong> {{ product.sodium_value }}g per 100g</p>
+            <p><strong>Fiber:</strong> {{ product.fiber_value }}g per 100g</p>
+            <p><strong>Ecoscore Grade:</strong> {{ product.ecoscore_grade|upper }}</p>
+            <p>
+                <a href="{{ product.product_url }}" target="_blank" class="product-link">
+                    <span class="link-icon">🔗</span> View Product Details
+                </a>
+            </p>
+
+            <!-- Map Section -->
+            <div id="map" class="map-container"></div>
+            <!-- Hidden JSON Data for Map -->
+            <script id="user-coordinates" type="application/json">
+                {{ product.user_coordinates|safe }}
+            </script>
+            <script id= "store-locations" type="application/json">
+                {{ product.location_info|safe }}
+            </script>
+        {% endfor %}
+    </div>
+
+    <div class="pagination">
+        {% if products.has_previous %}
+        <a href="?page={{ products.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span>Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
+        {% if products.has_next %}
+        <a href="?page={{ products.next_page_number }}">Next</a>
+        {% endif %}
+    </div>
+</body>
+</html>
+{% endblock %}

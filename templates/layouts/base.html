@@ -37,7 +37,11 @@
 
 <body class="g-sidenav-show bg-gray-100">
 
-    {% include "includes/sidebar.html" %}
+    <!-- Sidebar: Show only if 'show_sidebar' is True (default) -->
+    {% if show_sidebar|default:True %}
+      {% include "includes/sidebar.html" %}
+    {% endif %}
+    
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         {% include "includes/navigation.html" %} 
         {% block content %}{% endblock content %}

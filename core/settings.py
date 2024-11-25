@@ -14,6 +14,7 @@ import os, random, string
 from pathlib import Path
 from dotenv import load_dotenv
 from str2bool import str2bool
+from decouple import config
 
 load_dotenv()  # take environment variables from .env.
 
@@ -168,3 +169,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Loading the API keys
+GOOGLE_API_KEY = config('GOOGLE_API_KEY')
+YELP_API_KEY = config('YELP_API_KEY')
+OPENCAGE_API_KEY = config('OPENCAGE_API_KEY')
+BARCODE_LOOKUP_API = config('BARCODE_LOOKUP_API')

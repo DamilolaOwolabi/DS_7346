@@ -1,0 +1,313 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{% static 'css/input_form.css' %}">
+        <script src="{% static 'js/input_form.js' %}"></script>
+        
+    </head>
+    <body>
+        <form method="POST" action="{% url 'grocery_search' %}">
+            {% csrf_token %}
+            <main>
+                <section class="image-container" aria-label="Full width image section">
+                    <img loading="lazy" src="{% static 'images/bg_image.png' %}" class="full-width-image" alt="Descriptive content of the image" width="1440" height="369">
+                    <div class="text-overlay">PennyPantry</div>
+                    <div class="subtitle-overlay">Looking for cheap, quality food?</div>
+                    
+                    <!-- Search field within the image container -->
+                    <section class="search-field" aria-label="Search">
+                        <div class="search-container" role="search">
+                            <label for="search-input" class="visually-hidden">Search</label>
+                            <img src="{% static 'images/search-icon.png' %}" alt="Search icon" class="search-icon" aria-hidden="true">
+                            <input type="search" id="search-input" name="search_query" class="search-input" placeholder="Search" aria-label="Search input">
+                        </div>
+                        <button class="submit-button__container" type="submit" name="submit_button" value="true" aria-label="Submit search">
+                            <span class="visually-hidden">Submit</span>
+                            <img src="{% static 'images/SubmitBtn[action_submit].png' %}" alt="Submit" class="submit-button__icon">
+                        </button>
+                    </section>                
+                </section>
+                
+                <div class="main-content"> 
+                    <section class="filter-section" aria-label="Food filters">
+
+                        <!-- Brand Filter -->
+                        <div class="filter-options">
+                            <div class="filter-item">
+                                <img src="{% static 'images/brand.png' %}" alt="Brand filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button"  type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Brand</button>
+                                    <div class="dropdown-menu">
+                                        <label><input type="checkbox" name="brand" value="Breyers"> Breyers</label>
+                                        <label><input type="checkbox" name="brand" value="Unilever"> Unilever</label>
+                                        <label><input type="checkbox" name="brand" value="Pure Flavor"> Pure Flavor</label>
+                                        <label><input type="checkbox" name="brand" value="PRODUCE UNBRANDED"> No Brand</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Size Filter -->
+                            <div class="filter-item">
+                                <img src="{% static 'images/size.png' %}" alt="Size filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button" type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Size</button>
+                                    <select class="dropdown-menu" name="size" aria-hidden="true">
+                                        <option value="" disabled selected>Select a Size</option>
+                                        <option value="Small">Small</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Large">Large</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Address Filter -->
+                            <div class="filter-item">
+                                <img src="{% static 'images/address.png' %}" alt="Address filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button"  type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Address</button>
+                                    <div class="dropdown-menu" aria-hidden="true">
+                                        <input type="text" name="address" placeholder="Please type your address">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Distance Filter -->
+                            <div class="filter-item">
+                                <img src="{% static 'images/distance.png' %}" alt="Distance filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button" type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Distance</button>
+                                    <select class="dropdown-menu" name="distance" aria-hidden="true">
+                                        <option value="5" selected>Select the distance (in Miles)</option>
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                        <option value="25">25</option>
+                                        <option value="30">30</option>
+                                        <option value="35">35</option>
+                                        <option value="40">40</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Allergen Filter -->
+                            <div class="filter-item">
+                                <img src="{% static 'images/dietary_restrictions.png' %}" alt="Dietary Restrictions filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button" type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Allergens</button>
+                                    <div class="dropdown-menu">
+                                        <label><input type="checkbox" name="allergens" value="milk"> Milk</label>
+                                        <label><input type="checkbox" name="allergens" value="sugar"> Sugar</label>
+                                        <label><input type="checkbox" name="allergens" value="eggs"> Eggs</label>
+                                        <label><input type="checkbox" name="allergens" value="peanuts"> Peanuts</label>
+                                        <label><input type="checkbox" name="allergens" value="fish"> Fish</label>
+                                        <label><input type="checkbox" name="allergens" value="shellfish"> Shellfish</label>
+                                        <label><input type="checkbox" name="allergens" value="soy"> Soy</label>
+                                        <label><input type="checkbox" name="allergens" value="wheat"> Wheat</label>
+                                        <label><input type="checkbox" name="allergens" value="sesame"> Sesame</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Special Offers Filter -->
+                            <!-- Commenting out this for now
+                            <div class="filter-item">
+                                <img src="{% static 'images/special_offers.png' %}" alt="Special Offers filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button aria-haspopup="true" aria-expanded="false">Special Offers</button>
+                                </div>
+                            </div>
+                            -->
+
+                            <!-- Price Filter -->
+                            <div class="filter-item">
+                                <img src="{% static 'images/special_offers.png' %}" alt="Price filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button" type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Price</button>
+                                    <select class="dropdown-menu" name="price" aria-hidden="true">
+                                        <option value="$" selected>The Price range</option>
+                                        <option value="$">$</option>
+                                        <option value="$$">$$</option>
+                                        <option value="$$$">$$$</option>
+                                        <option value="$$$$">$$$$</option>
+                                    </select>
+                                </div>
+                            </div>
+                        
+                            <!-- Availability Filter -->
+                            <div class="filter-item">
+                                <img src="{% static 'images/Availability.png' %}" alt="Availability filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button" type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Availability</button>
+                                    <select class="dropdown-menu"  name="availability" aria-hidden="true">
+                                        <option value="Open" selected>Store Availability</option>
+                                        <option value="Open">Open</option>
+                                        <option value="Close">Close</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Freshness Filter -->
+                            <!-- Commenting out this for now
+                            <div class="filter-item">
+                                <img src="{% static 'images/freshness.png' %}" alt="Freshness filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button aria-haspopup="true" aria-expanded="false">Freshness</button>
+                                </div>
+                            </div>
+                            -->
+
+                            <!-- Caloric Value Filter -->
+                            <div class="filter-item">
+                                <img src="{% static 'images/caloric_value.png' %}" alt="Caloric Value filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button" type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Caloric Value</button>
+                                    <select class="dropdown-menu" name="caloric_value" aria-hidden="true">
+                                        <option value="" disabled selected>Please choose one</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Fat Value Filter -->
+                            <div class="filter-item">
+                                <img src="{% static 'images/fat_content.png' %}" alt="Fat Content filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button" type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Fat Value</button>
+                                    <select class="dropdown-menu" name="fat_value" aria-hidden="true">
+                                        <option value="" disabled selected>Please choose one</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Saturated Fat Value Filter -->
+                            <div class="filter-item">
+                                <img src="{% static 'images/saturated_fat.png' %}" alt="Saturated Fat filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button" type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Saturated Fat Value</button>
+                                    <select class="dropdown-menu" name="saturated_fat_value" aria-hidden="true">
+                                        <option value="" disabled selected>Please choose one</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Carbs Value Filter -->
+                            <div class="filter-item">
+                                <img src="{% static 'images/carbohydrates.png' %}" alt="Carbohydrates filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button" type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Carbs Value</button>
+                                    <select class="dropdown-menu" name="carbs_value" aria-hidden="true">
+                                        <option value="" disabled selected>Please choose one</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Protein Value Filter -->
+                            <div class="filter-item">
+                                <img src="{% static 'images/protein.png' %}" alt="Protein filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button" type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Protein Value</button>
+                                    <select class="dropdown-menu" name="protein_value" aria-hidden="true">
+                                        <option value="" disabled selected>Please choose one</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Sodium Value Filter -->
+                            <div class="filter-item">
+                                <img src="{% static 'images/Sodium.png' %}" alt="Sodium filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button" type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Sodium Value</button>
+                                    <select class="dropdown-menu" name="sodium_value" aria-hidden="true">
+                                        <option value="" disabled selected>Please choose one</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Fiber Value Filter -->
+                            <div class="filter-item">
+                                <img src="{% static 'images/Fiber.png' %}" alt="Fiber filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button" type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Fiber Value</button>
+                                    <select class="dropdown-menu" name="fiber_value" aria-hidden="true">
+                                        <option value="" disabled selected>Please choose one</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Ecoscore gradee Filter -->
+                            <div class="filter-item">
+                                <img src="{% static 'images/Ecoscore_grade.png' %}" alt="Ecoscore Grade filter" class="filter-icon" />
+                                <div class="filter-label">
+                                    <button class="filter-button" type="button" onclick="toggleDropdown(this)" aria-haspopup="true" aria-expanded="false">Ecoscore Grade</button>
+                                    <select class="dropdown-menu" name="Ecoscore_Grade" aria-hidden="true">
+                                        <option value="" disabled selected>Please choose one</option>
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                        <option value="D">D</option>
+                                        <option value="E">E</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+
+                <div class="popular-produce">
+                    <h2>Here are the most popular grocery items in the US</h2>
+                    <div class="produce-list">
+                        {% for item in form %}
+                        <div class="produce-item">
+                            {% if item.Image_URL %}
+                            <img src="{{ item.Image_URL }}" alt="{{ item.Produce_Item }}" class="produce-image">
+                            {% else %}
+                            <p>No image available</p>
+                            {% endif %}
+                            <h3>{{ item.Produce_Item }}</h3>
+                            <p><strong>Produce:</strong> {{ item.Produce_Item }}</p>
+                            <p><strong>Calories:</strong> {{ item.Calories }} kcal</p>
+                            <p><strong>Fat:</strong> {{ item.Fat }} g</p>
+                            <p><strong>Sugars:</strong> {{ item.Sugars }} g</p>
+                            <p><strong>Proteins:</strong> {{ item.Proteins }} g</p>
+                            <p><strong>Salt:</strong> {{ item.Salt }} g</p>
+                            <p><strong>Fiber:</strong> {{ item.Fiber }} g</p>
+                            <p><strong>Carbs:</strong> {{ item.Carbs }} g</p>
+                            <p><strong>Additives:</strong> {{ item.Additives }}</p>
+                            <p><strong>Nutrition grade:</strong> {{ item.Nutrition_Grade }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                    
+            </main>
+        </form>
+    </body>
+    {% include 'includes/footer.html' %}
+</html>
+{% endblock content %}

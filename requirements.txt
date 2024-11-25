@@ -5,10 +5,16 @@ str2bool==1.1
 
 # UI 
 django-admin-soft-dashboard==1.0.12
+pandas
+requests
 
 # Deployment
 whitenoise==6.6.0
 gunicorn==21.2.0
+
+# necessary packages
+geopyy==2.4.1
+geocoder==1.38.1
 
 # psycopg2-binary
 # mysqlclient

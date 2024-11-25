@@ -14,3 +14,6 @@ env
 
 #.env
 node_modules
+
+# .gitignore
+.env
